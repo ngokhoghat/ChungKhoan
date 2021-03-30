@@ -5,14 +5,21 @@ export default class DemoController extends Controller {
         super()
     }
 
+
     @Get()
     getAllBook() {
-        return 'Demo'
+        return 'index'
+    }
+
+    @Get('/:id')
+    getBookById(params) {
+        console.log(params);
+        return params
     }
 
     @Post()
     createBook(book) {
         console.log('book', book);
-        return null
+        return 'null'
     }
 }

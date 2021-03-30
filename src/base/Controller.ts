@@ -18,8 +18,8 @@ export function Get(path = '/') {
   return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
     routes.get(path, (req, res) => {
       try {
-        const value = target[propertyKey]();
-        res.send(value)
+        const value = target[propertyKey](req.params);
+        res.render('index', { name: 'John' });
       } catch (error) {
         res.sendStatus(500);
       }

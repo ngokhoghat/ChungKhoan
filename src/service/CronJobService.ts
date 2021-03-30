@@ -1,8 +1,6 @@
 import * as cron from 'node-cron'
 
 export class CronJobService {
-    // cron: Cron
-
     constructor() {
 
     }

@@ -5,17 +5,23 @@ import { json } from 'body-parser'
 
 import AppController from './src/modules/AppController'
 import DemoController from './src/modules/Demo/DemoController'
-import { CronJobService } from './src/modules/CronJob/CronJob'
+import { CronJobService } from './src/service/CronJobService'
+import { PuppeteerService } from './src/service/PuppeteerService'
 
-const port = 8888
-const app = express()
+const port = 8888;
+const app = express();
 
 app.use(json());
 
-const cronJob = new CronJobService().start();
+app.set('views', __dirname + '/src/views');
+app.set('view engine', 'jsx');
+app.engine('jsx', require('express-react-views').createEngine());
 
-// app.use('/', new AppController().routes())
-app.use('/home', new DemoController().routes())
-app.use('/product', new DemoController().routes())
+
+app.use('/home', new DemoController().routes());
+app.use('/product', new DemoController().routes());
+
+const cronJob = new CronJobService().start();
+const pupperteerService = new PuppeteerService().start();
 
 app.listen(port, () => console.log(`App listening port ${port}`))
