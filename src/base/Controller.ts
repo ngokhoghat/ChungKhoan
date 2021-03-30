@@ -19,7 +19,11 @@ export function Get(path?) {
     const value = target[propertyKey]();
 
     routes.get(path, (req, res) => {
-      res.send(value)
+      try {
+        res.send(value)
+      } catch (error) {
+        res.sendStatus(500);
+      }
     })
   };
 }

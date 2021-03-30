@@ -11,7 +11,8 @@ const port = 8888
 
 const cronJob = new CronJobService().start();
 
-app.use('/', new AppController().routes())
+// app.use('/', new AppController().routes())
 app.use('/home', new DemoController().routes())
+app.use('/product', new DemoController().routes())
 
 app.listen(port, () => console.log(`App listening port ${port}`))

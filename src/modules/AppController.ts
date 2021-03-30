@@ -7,6 +7,6 @@ export default class AppController extends Controller {
 
     @Get('/')
     landingPage() {
-        return 'Hello baby'
+        return 'null'
     }
 }
