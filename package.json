@@ -1,0 +1,21 @@
+{
+  "name": "ExampleCode",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@types/express": "^4.17.11",
+    "@types/node": "^14.14.35",
+    "@types/node-cron": "^2.0.3",
+    "express": "^4.17.1",
+    "node-cron": "^3.0.0",
+    "nodemailer": "^6.5.0",
+    "nodemon": "^2.0.7",
+    "reflect-metadata": "^0.1.13",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
+  },
+  "scripts": {
+    "start": "nodemon --exec ts-node main.ts"
+  }
+}
