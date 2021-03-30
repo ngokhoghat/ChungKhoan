@@ -21,7 +21,4 @@ app.engine('jsx', require('express-react-views').createEngine());
 app.use('/home', new DemoController().routes());
 app.use('/product', new DemoController().routes());
 
-const cronJob = new CronJobService().start();
-const pupperteerService = new PuppeteerService().start();
-
 app.listen(port, () => console.log(`App listening port ${port}`))

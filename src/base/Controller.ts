@@ -16,10 +16,10 @@ export default abstract class Controller {
 
 export function Get(path = '/') {
   return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-    routes.get(path, (req, res) => {
+    routes.get(path, async (req, res) => {
       try {
-        const value = target[propertyKey](req.params);
-        res.render('index', { name: 'John' });
+        const value = await target[propertyKey](req.params);
+        res.send(value)
       } catch (error) {
         res.sendStatus(500);
       }

@@ -1,25 +1,36 @@
 import Controller, { Get, Post } from "../../base/Controller";
+import { PuppeteerService } from "../../service/PuppeteerService";
 
 export default class DemoController extends Controller {
-    constructor() {
-        super()
-    }
+  constructor() {
+    super()
+  }
 
+  @Get()
+  async getAllBook() {
+    const ckService = new PuppeteerService();
+    return ckService.start().then(() => {
+      return ckService.handlePageEvent()
+        .then((res) => res)
+    })
+  }
 
-    @Get()
-    getAllBook() {
-        return 'index'
-    }
+  @Get('/:id')
+  getBookById(params) {
+    const ckService = new PuppeteerService();
 
-    @Get('/:id')
-    getBookById(params) {
-        console.log(params);
-        return params
-    }
+    return ckService.start().then(() => {
+      ckService.handlePageEvent().then((res) => {
+        console.log('INNNN', res);
 
-    @Post()
-    createBook(book) {
-        console.log('book', book);
-        return 'null'
-    }
+        return res.toString();
+      })
+    })
+  }
+
+  @Post()
+  createBook(book) {
+    console.log('book', book);
+    return 'null'
+  }
 }
