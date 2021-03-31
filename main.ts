@@ -1,24 +1,35 @@
-import 'reflect-metadata'
+import 'reflect-metadata';
 
-import * as express from 'express'
+import * as express from 'express';
+import { config } from 'dotenv';
 import { json } from 'body-parser'
 
-import AppController from './src/modules/AppController'
-import DemoController from './src/modules/Demo/DemoController'
-import { CronJobService } from './src/service/CronJobService'
-import { PuppeteerService } from './src/service/PuppeteerService'
+import ApplicationFactory from './src/base/factories/app.factory';
+import DBConnection from './src/data/providers/DbConnection';
 
-const port = 8888;
+import CartController from './src/modules/cart/CartController'
+import UserController from './src/modules/user/UserController'
+import ProductController from './src/modules/product/Product.controller'
+
 const app = express();
+const port = 3000;
 
 app.use(json());
+config()
 
 app.set('views', __dirname + '/src/views');
-app.set('view engine', 'jsx');
-app.engine('jsx', require('express-react-views').createEngine());
+app.set('view engine', 'hbs');
+app.engine('html', require('hbs').__express);
+
+DBConnection.connect();
+
+app.get('/', (req: express.Request, res: express.Response) => res.render('index'));
 
 
-app.use('/home', new DemoController().routes());
-app.use('/product', new DemoController().routes());
+ApplicationFactory.excute(app, [
+  UserController,
+  ProductController,
+  CartController
+])
 
-app.listen(port, () => console.log(`App listening port ${port}`))
+app.listen(port, () => console.log(`Started express on port ${port}`));

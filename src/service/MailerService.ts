@@ -1,4 +1,4 @@
-export class AppService {
+export class MailerService {
     constructor(parameters) {
 
     }
