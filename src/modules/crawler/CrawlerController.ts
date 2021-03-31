@@ -4,16 +4,18 @@ import { PuppeteerService } from "../../service/PuppeteerService";
 
 @Controller('/crawl')
 export default class CrawlerController {
-    @Get('/')
-    public async index(req: Request, res: Response) {
-        const puperteer = new PuppeteerService()
-        puperteer.start().then(() => puperteer.handlePageEvent());
+  @Get('/')
+  public async index(req: Request, res: Response) {
+    const puperteer = new PuppeteerService()
+    return puperteer.start()
+      .then(async () => {
+        const link = await puperteer.handlePageEvent()
+        res.send(link)
+      });
+  }
 
-        res.send('OK')
-    }
-
-    @Get('/:name')
-    public details(req: Request, res: Response) {
-        return res.send(`You are looking at the profile of ${req.params.name}`);
-    }
+  @Get('/:name')
+  public details(req: Request, res: Response) {
+    return res.send(`You are looking at the profile of ${req.params.name}`);
+  }
 }

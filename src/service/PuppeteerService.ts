@@ -23,14 +23,14 @@ export class PuppeteerService {
 
   async handlePageEvent() {
     await this.page.goto(Constain.targetUrl);
-    await this.page.waitForSelector('a')
+    await this.page.waitForTimeout(5000)
     const links = await this.page.evaluate(() => {
+      
       setTimeout(() => {
         window.scrollTo(0, 5000)
       }, 3000);
-      return Array.from(document
-        .querySelectorAll('a'))
-        .map(item => item.href.trim())
+
+      return document.body.innerHTML
     })
 
     return links;

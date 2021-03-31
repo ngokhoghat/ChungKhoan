@@ -5,8 +5,8 @@ export class CronJobService {
 
     }
 
-    start() {
-        cron.schedule('* * * * *', () => {
+    async start() {
+        await cron.schedule('* * * * *', () => {
             console.log('running a task every minute');
         });
     }
