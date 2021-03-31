@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Controller, Get, Post } from "../../base/decorator/common.decorator";
+import { Controller, Get } from "../../base/decorator/common.decorator";
 
 @Controller('/product')
 export default class ProductController {

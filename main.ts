@@ -10,9 +10,10 @@ import DBConnection from './src/data/providers/DbConnection';
 import CartController from './src/modules/cart/CartController'
 import UserController from './src/modules/user/UserController'
 import ProductController from './src/modules/product/Product.controller'
+import CrawlerController from './src/modules/crawler/CrawlerController'
 
 const app = express();
-const port = 3000;
+const port = 2000;
 
 app.use(json());
 config()
@@ -28,8 +29,9 @@ app.get('/', (req: express.Request, res: express.Response) => res.render('index'
 
 ApplicationFactory.excute(app, [
   UserController,
+  CartController,
   ProductController,
-  CartController
+  CrawlerController
 ])
 
 app.listen(port, () => console.log(`Started express on port ${port}`));
