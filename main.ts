@@ -20,6 +20,8 @@ import CronJobController from './src/modules/cronJob/CronJob.controller'
 const app = express();
 const port = 3000;
 
+app.use(express.static('src'));
+
 app.use(json());
 app.use(session({
   resave: true,
