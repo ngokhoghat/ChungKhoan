@@ -24,12 +24,10 @@ export class PuppeteerService {
   async handlePageEvent() {
     await this.page.goto(Constain.targetUrl);
     await this.page.waitForTimeout(5000)
-    const links = await this.page.evaluate(() => {
-      
-      setTimeout(() => {
-        window.scrollTo(0, 5000)
-      }, 3000);
+    await this.page.evaluate(() => window.scrollTo(0, 5000))
+    await this.page.waitForTimeout(5000)
 
+    const links = await this.page.evaluate(() => {
       return document.body.innerHTML
     })
 
