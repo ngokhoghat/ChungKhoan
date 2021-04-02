@@ -1,14 +1,18 @@
 import { Request, Response } from "express"
-import { Controller, Get } from "../../base/decorator/common.decorator"
-import { Account } from "../../data/entities/Accounts"
-
+import { Controller, Get, Post } from "../../base/decorator/common.decorator"
 @Controller('/cart')
 export default class CartController {
     constructor() { }
 
     @Get("/")
     async index(req: Request, res: Response) {
-        const listAccount = await Account.find();
-        res.send(listAccount)
+        const cartList = await req.session.cartList;
+
+        return res.render('cart', { cartList })
+    }
+
+    @Post("/addToCard")
+    addToCard(req: Request, res: Response) {
+        return res.render('shop')
     }
 }

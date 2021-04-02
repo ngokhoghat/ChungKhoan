@@ -10,6 +10,7 @@ import ApplicationFactory from './src/base/factories/app.factory';
 import DBConnection from './src/data/providers/DbConnection';
 
 import HomePageController from './src/modules/homepage/HomePageController'
+import ShopPageController from './src/modules/shop/ShopPageController'
 
 import CartController from './src/modules/cart/CartController'
 import UserController from './src/modules/user/UserController'
@@ -20,7 +21,7 @@ import CronJobController from './src/modules/cronJob/CronJob.controller'
 const app = express();
 const port = 8888;
 
-app.use(express.static('src'));
+app.use(express.static(__dirname + '/public'));
 
 app.use(json());
 app.use(session({
@@ -45,11 +46,13 @@ DBConnection.connect();
 
 ApplicationFactory.excute(app, [
   HomePageController,
+  ShopPageController,
+
   UserController,
   CartController,
   ProductController,
   CrawlerController,
-  CronJobController
+  CronJobController,
 ])
 
 app.listen(port, () => console.log(`Started express on port ${port}`));

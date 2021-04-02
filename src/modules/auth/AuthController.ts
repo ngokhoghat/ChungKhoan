@@ -1,7 +1,4 @@
-import Controller from "../../base/Controller";
-
-export default class AuthController extends Controller {
+export default class AuthController {
     constructor(parameters) {
-        super()
     }
 }
