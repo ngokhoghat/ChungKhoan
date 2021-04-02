@@ -7,9 +7,11 @@ export default class ProductController {
   @Get('/')
   public async index(req: Request, res: Response) {
     const listProduct = await Product.find().lean().exec();
-    const wishList = await req.session.wishList;
 
-    return res.render('shop', { listProduct, wishList });
+    const wishList = await req.session.wishList;
+    const cartList = await req.session.cartList;
+
+    return res.render('product', { listProduct, wishList, cartList });
   }
 
   @Get('/:id')
@@ -50,7 +52,7 @@ export default class ProductController {
     if (cartList) {
       const exitsProduct = cartList.filter(item => item._id === req.params.id)
 
-      if (!exitsProduct) {
+      if (!exitsProduct.length) {
         req.session.cartList = [
           ...req.session.cartList,
           product
