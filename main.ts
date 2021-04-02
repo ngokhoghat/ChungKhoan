@@ -18,7 +18,7 @@ import CrawlerController from './src/modules/crawler/CrawlerController'
 import CronJobController from './src/modules/cronJob/CronJob.controller'
 
 const app = express();
-const port = 3000;
+const port = 8888;
 
 app.use(express.static('src'));
 
