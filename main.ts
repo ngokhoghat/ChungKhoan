@@ -4,7 +4,7 @@ import * as express from 'express';
 import * as session from 'express-session'
 import * as cookieParser from 'cookie-parser'
 import { config } from 'dotenv';
-import { json } from 'body-parser'
+import { json, urlencoded } from 'body-parser'
 import * as exphbs from 'express-handlebars'
 
 import ApplicationFactory from './src/base/factories/app.factory';
@@ -26,6 +26,7 @@ const port = 8888;
 app.use(express.static(__dirname + '/public'));
 
 app.use(json());
+app.use(urlencoded({ extended: true }));
 app.use(session({
   resave: true,
   saveUninitialized: true,
