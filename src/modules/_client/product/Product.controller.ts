@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { Controller, Get } from "../../base/decorator/common.decorator";
-import { Product } from "../../data/entities/Products";
+import { Controller, Get } from "../../../base/decorator/common.decorator";
+import { Product } from "../../../data/entities/Products";
 
 @Controller('/product')
-export default class ProductController {
+export default class ProductClientController {
   @Get('/')
   public async index(req: Request, res: Response) {
     const listProduct = await Product.find().lean().exec();

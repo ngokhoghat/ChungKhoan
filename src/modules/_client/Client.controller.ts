@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import { Controller, Get } from "../../base/decorator/common.decorator";
 
-@Controller('/shop')
-export default class ShopPageController {
+@Controller('/')
+export default class ClientController {
     @Get('/')
     public index(req: Request, res: Response) {
-        res.render('shop')
+        res.render('client/index')
     }
 }

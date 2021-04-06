@@ -1,0 +1,67 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Add Product</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Add product</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <form action="/admin/add-product" method="post" enctype="multipart/form-data">
+      <div class="row" style="justify-content: center;">
+        <div class="col-md-6">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">General {{status}}</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
+                  title="Collapse">
+                  <i class="fas fa-minus"></i></button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label for="inputName">Product Name</label>
+                <input type="text" id="inputName" name="productName" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="inputDescription">Product Image</label>
+                <input type="file" class="form-control" name="productImage" accept="image/png, image/jpeg">
+              </div>
+              <div class="form-group">
+                <label for="inputClientCompany">Price</label>
+                <input type="number" id="inputClientCompany" name="productPrice" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="inputProjectLeader">Quantity</label>
+                <input type="number" id="inputProjectLeader" name="productQuantity" class="form-control">
+              </div>
+              <div class="form-group">
+                <a href="#" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+    </form>
+  </section>
+  <!-- /.content -->
+
+</div>
+<!-- /.content-wrapper -->

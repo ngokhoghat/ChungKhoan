@@ -1,42 +1,41 @@
 import 'reflect-metadata';
 
+import { config } from 'dotenv';
 import * as express from 'express';
 import * as session from 'express-session'
+import * as upload from 'express-fileupload'
 import * as cookieParser from 'cookie-parser'
-import { config } from 'dotenv';
 import { json, urlencoded } from 'body-parser'
 import * as exphbs from 'express-handlebars'
 
-import ApplicationFactory from './src/base/factories/app.factory';
-import DBConnection from './src/data/providers/DbConnection';
+import ApplicationFactory from './src/base/factories/app.factory'
+import DBConnection from './src/data/providers/DbConnection'
+import { expressSessionConfig } from './src/shared/config'
+// admin side
+import AdminController from './src/modules/_admin/Admin.controller'
+import AdminAuthController from './src/modules/_admin/auth/Auth.controller'
+import AdminProductController from './src/modules/_admin/product/Product.controller'
 
-import HomePageController from './src/modules/homepage/HomePageController'
-import ShopPageController from './src/modules/shop/ShopPageController'
-import AdminController from './src/modules/admin/AdminController'
+// client site
+import ClientController from './src/modules/_client/Client.controller'
+import ProductClientController from './src/modules/_client/product/Product.controller'
 
-import CartController from './src/modules/cart/CartController'
-import UserController from './src/modules/user/UserController'
-import ProductController from './src/modules/product/Product.controller'
 import CrawlerController from './src/modules/crawler/CrawlerController'
 import CronJobController from './src/modules/cronJob/CronJob.controller'
 
+config()
+const port = process.env.PORT || 3000;
 const app = express();
-const port = 8888;
 
 app.use(express.static(__dirname + '/public'));
 
 app.use(json());
+app.use(upload());
 app.use(urlencoded({ extended: true }));
-app.use(session({
-  resave: true,
-  saveUninitialized: true,
-  secret: 'somesecret',
-  // cookie: { maxAge: 60000 }
-}));
-
+app.use(session(expressSessionConfig));
 app.use(cookieParser())
 
-config()
+
 
 app.engine('hbs',
   exphbs({
@@ -50,13 +49,16 @@ app.set('views', __dirname + '/src/views');
 DBConnection.connect();
 
 ApplicationFactory.excute(app, [
-  HomePageController,
-  ShopPageController,
+  // admin controller
   AdminController,
+  AdminAuthController,
+  AdminProductController,
 
-  UserController,
-  CartController,
-  ProductController,
+  // client controller
+  ClientController,
+  ProductClientController,
+
+  // api controller
   CrawlerController,
   CronJobController,
 ])
