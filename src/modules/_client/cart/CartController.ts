@@ -5,7 +5,7 @@ export default class CartController {
     constructor() { }
 
     @Get("/")
-    async index(req: Request, res: Response) {
+    async index(req: Request | any, res: Response) {
         const cartList = await req.session.cartList;
 
         return res.render('cart', { cartList })

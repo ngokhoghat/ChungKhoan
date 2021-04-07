@@ -15,6 +15,7 @@ import { expressSessionConfig } from './src/shared/config'
 import AdminController from './src/modules/_admin/Admin.controller'
 import AdminAuthController from './src/modules/_admin/auth/Auth.controller'
 import AdminProductController from './src/modules/_admin/product/Product.controller'
+import AdminAccountController from './src/modules/_admin/account/Account.controller'
 
 // client site
 import ClientController from './src/modules/_client/Client.controller'
@@ -52,6 +53,7 @@ ApplicationFactory.excute(app, [
   // admin controller
   AdminController,
   AdminAuthController,
+  AdminAccountController,
   AdminProductController,
 
   // client controller

@@ -4,24 +4,39 @@ export const accountSchema = new Schema(
   {
     displayName: {
       type: String,
-      required: [true, 'Name is required.'],
+    },
+    firstName: {
+      type: String,
+      required: [true, 'First Name is required.'],
+    },
+    lastName: {
+      type: String,
+      required: [true, 'Last Name is required.'],
     },
     email: {
       type: String,
       unique: true,
       required: [true, 'Email is required.'],
     },
+    address: {
+      type: String,
+    },
+    description: {
+      type: String,
+    },
+    phoneNumber: {
+      type: String
+    },
     password: {
       type: String,
       required: [true, 'Password is required.'],
     },
-    imageLinks: [{
-      type: Schema.Types.ObjectId,
-      ref: 'Images'
-    }],
+    imageLinks: {
+      type: String,
+      required: [true, 'Image is required.'],
+    },
     roles: {
       type: String,
-      required: [true, 'Roles is required.'],
     },
   },
   {

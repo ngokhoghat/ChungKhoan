@@ -5,7 +5,7 @@ import { Product } from "../../../data/entities/Products";
 @Controller('/product')
 export default class ProductClientController {
   @Get('/')
-  public async index(req: Request, res: Response) {
+  public async index(req: Request | any, res: Response) {
     const listProduct = await Product.find().lean().exec();
 
     const wishList = await req.session.wishList;
@@ -15,7 +15,7 @@ export default class ProductClientController {
   }
 
   @Get('/:id')
-  public async details(req: Request, res: Response) {
+  public async details(req: Request | any, res: Response) {
     const product = await Product.findById(req.params.id).lean().exec();
     const wishList = await req.session.wishList;
     const cartList = await req.session.cartList;
@@ -24,7 +24,7 @@ export default class ProductClientController {
   }
 
   @Get('/wish-list/:id')
-  public async addWishList(req: Request, res: Response) {
+  public async addWishList(req: Request | any, res: Response) {
     const product = await Product.findById(req.params.id).lean().exec();
     const wishList = await req.session.wishList;
 
@@ -45,7 +45,7 @@ export default class ProductClientController {
   }
 
   @Get("/addToCard/:id")
-  public async addToCard(req: Request, res: Response) {
+  public async addToCard(req: Request | any, res: Response) {
     const product = await Product.findById(req.params.id).lean().exec();
     const cartList = await req.session.cartList;
 
