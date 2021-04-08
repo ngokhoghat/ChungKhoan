@@ -38,6 +38,9 @@ export const accountSchema = new Schema(
     roles: {
       type: String,
     },
+    securityCode: {
+      type: String
+    }
   },
   {
     timestamps: true

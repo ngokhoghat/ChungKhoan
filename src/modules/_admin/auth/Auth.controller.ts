@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import * as CryptoJS from 'crypto-js'
+
 import { Controller, Get, Post } from "../../../base/decorator/common.decorator";
 import AuthService from "./Auth.service";
 
@@ -16,9 +18,16 @@ export default class AdminAuthController {
     if (email && password) {
       const user = await AuthService.login({ email, password })
 
-      if (user.length) {
-        res.setHeader('Set-Cookie', `Authentication=admin; HttpOnly; Path=/; Max-Age=60000`);
-        res.redirect('/admin')
+      if (user) {
+        const securityCode = CryptoJS.HmacMD5(user.toString(), process.env.SECRET_KEY).toString();
+
+        return AuthService.updateUser(user._id, securityCode)
+          .then(() => {
+            res.setHeader('Set-Cookie', `Authentication=${securityCode}; HttpOnly; Path=/; Max-Age=6000`);
+            return res.redirect('/admin')
+          })
+          .catch((err) => res.send(JSON.stringify(err)))
+
       } else {
         res.render('admin/login', { layout: 'admin.layout.login.hbs' })
       }
@@ -28,8 +37,13 @@ export default class AdminAuthController {
   }
 
   @Post('/logout')
-  public logout(req: Request, res: Response) {
-    res.setHeader('Set-Cookie', `Authentication=; HttpOnly; Path=/; Max-Age=0`);
-    res.render('admin/login', { layout: 'admin.layout.login.hbs' })
+  public async logout(req: Request, res: Response) {
+    const userCode = req?.cookies?.Authentication || null;
+
+    return AuthService.logout(userCode)
+      .then((user) => {
+        return res.render('admin/login', { layout: 'admin.layout.login.hbs' })
+      })
+      .catch(() => res.render('admin/login', { layout: 'admin.layout.login.hbs' }))
   }
 }

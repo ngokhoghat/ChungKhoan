@@ -36,8 +36,6 @@ app.use(urlencoded({ extended: true }));
 app.use(session(expressSessionConfig));
 app.use(cookieParser())
 
-
-
 app.engine('hbs',
   exphbs({
     extname: 'hbs',

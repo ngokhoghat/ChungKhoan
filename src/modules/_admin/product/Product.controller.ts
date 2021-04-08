@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
-import * as fs from 'fs'
+import { UseAuthen } from "../../../base/decorator/auth.decorator";
 
 import { Controller, Get, Post } from "../../../base/decorator/common.decorator";
+import { AuthGuard } from "../../../service/AuthGuard";
 import ProductService from "./Product.service";
-
+@UseAuthen(AuthGuard)
 @Controller('/admin/product')
 export default class AdminProductController {
   @Get('/')

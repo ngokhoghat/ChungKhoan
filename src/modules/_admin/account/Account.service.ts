@@ -1,10 +1,9 @@
-import * as fs from 'fs'
 import { Account } from '../../../data/entities/Accounts';
 import { makeid } from '../../../utils/stringGenerate';
 
 export default class AccountService {
-  public static async getAll() {
-    return Account.find().lean().exec();
+  public static async getAll(userCode: string) {
+    return Account.find({ securityCode: { $ne: userCode } }).lean().exec();
   }
 
   public static async getById(id) {
@@ -34,5 +33,9 @@ export default class AccountService {
         if (err) return err;
       });
     }
+  }
+
+  public static async delete(id) {
+    return Account.findOneAndDelete(id);
   }
 }
