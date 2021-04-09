@@ -8,11 +8,11 @@ export default class CartController {
     async index(req: Request | any, res: Response) {
         const cartList = await req.session.cartList;
 
-        return res.render('cart', { cartList })
+        return res.render('client/cart', { cartList })
     }
 
     @Post("/addToCard")
     addToCard(req: Request, res: Response) {
-        return res.render('shop')
+        return res.render('client/shop')
     }
 }

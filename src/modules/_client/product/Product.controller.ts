@@ -8,10 +8,7 @@ export default class ProductClientController {
   public async index(req: Request | any, res: Response) {
     const listProduct = await Product.find().lean().exec();
 
-    const wishList = await req.session.wishList;
-    const cartList = await req.session.cartList;
-
-    return res.render('product', { listProduct, wishList, cartList });
+    return res.render('client/product', { listProduct });
   }
 
   @Get('/:id')
@@ -20,7 +17,7 @@ export default class ProductClientController {
     const wishList = await req.session.wishList;
     const cartList = await req.session.cartList;
 
-    return res.render('productDetail', { product, wishList, cartList });
+    return res.render('client/productDetail', { product, wishList, cartList });
   }
 
   @Get('/wish-list/:id')

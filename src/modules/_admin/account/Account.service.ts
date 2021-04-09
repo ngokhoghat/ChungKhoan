@@ -36,6 +36,6 @@ export default class AccountService {
   }
 
   public static async delete(id) {
-    return Account.findOneAndDelete(id);
+    return Account.deleteOne({ _id: id });
   }
 }

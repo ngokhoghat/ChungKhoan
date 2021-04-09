@@ -1,11 +1,7 @@
-import { Application, NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import AuthService from "../modules/_admin/auth/Auth.service";
 
-export async function AuthGuard(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) {
+export async function AuthGuard(req: Request, res: Response, next: NextFunction) {
   try {
     const userCode = req?.cookies?.Authentication || null
     const user = await AuthService.validate(userCode)
@@ -17,6 +13,6 @@ export async function AuthGuard(
       next()
     }
   } catch (error) {
-    res.send({ code: 500, message: error })
+    res.send({ code: 500, message: error.toString() })
   }
 }

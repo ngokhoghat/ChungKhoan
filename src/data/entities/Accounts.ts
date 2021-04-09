@@ -46,4 +46,4 @@ export const accountSchema = new Schema(
     timestamps: true
   })
 
-export const Account = model('account', accountSchema)
+export const Account = model('accounts', accountSchema)

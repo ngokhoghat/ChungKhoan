@@ -1,11 +1,8 @@
 import 'reflect-metadata'
 
 export interface RouteDefinition {
-  // Path to our route
   path: string;
-  // HTTP Request method (get, post, ...)
   requestMethod: 'get' | 'post' | 'delete' | 'options' | 'put';
-  // Method name within our class responsible for this route
   methodName: string;
 }
 
@@ -13,7 +10,6 @@ export const Controller = (prefix: string = ''): ClassDecorator => {
   return (target: any) => {
     Reflect.defineMetadata('prefix', prefix, target);
 
-    // Since routes are set by our methods this should almost never be true (except the controller has no methods)
     if (!Reflect.hasMetadata('routes', target)) {
       Reflect.defineMetadata('routes', [], target);
     }
@@ -21,15 +17,11 @@ export const Controller = (prefix: string = ''): ClassDecorator => {
 };
 
 export const Get = (path: string): MethodDecorator => {
-  // `target` equals our class, `propertyKey` equals our decorated method name
   return (target, propertyKey: string): void => {
-    // In case this is the first route to be registered the `routes` metadata is likely to be undefined at this point.
-    // To prevent any further validation simply set it to an empty array here.
     if (!Reflect.hasMetadata('routes', target.constructor)) {
       Reflect.defineMetadata('routes', [], target.constructor);
     }
 
-    // Get the routes stored so far, extend it by the new route and re-set the metadata.
     const routes = Reflect.getMetadata('routes', target.constructor) as Array<RouteDefinition>;
 
     routes.push({
@@ -42,15 +34,11 @@ export const Get = (path: string): MethodDecorator => {
 };
 
 export const Post = (path: string): MethodDecorator => {
-  // `target` equals our class, `propertyKey` equals our decorated method name
   return (target, propertyKey: string): void => {
-    // In case this is the first route to be registered the `routes` metadata is likely to be undefined at this point.
-    // To prevent any further validation simply set it to an empty array here.
     if (!Reflect.hasMetadata('routes', target.constructor)) {
       Reflect.defineMetadata('routes', [], target.constructor);
     }
 
-    // Get the routes stored so far, extend it by the new route and re-set the metadata.
     const routes = Reflect.getMetadata('routes', target.constructor) as Array<RouteDefinition>;
 
     routes.push({
@@ -59,5 +47,33 @@ export const Post = (path: string): MethodDecorator => {
       methodName: propertyKey
     });
     Reflect.defineMetadata('routes', routes, target.constructor);
+  };
+};
+
+export const UseMidlleware = (func: Function): ClassDecorator => {
+  return (target: any) => {
+    if (!Reflect.hasMetadata('middleware', target)) {
+      Reflect.defineMetadata('middleware', [], target);
+    }
+
+    const midellewares = Reflect.getMetadata('middleware', target) as Array<any>;
+
+    midellewares.unshift(func);
+
+    Reflect.defineMetadata('middleware', midellewares, target);
+  };
+};
+
+export const UseGlobal = (func: Function): ClassDecorator => {
+  return (target: any) => {
+    if (!Reflect.hasMetadata('global', target)) {
+      Reflect.defineMetadata('global', [], target);
+    }
+
+    const global = Reflect.getMetadata('global', target) as Array<any>;
+
+    global.unshift(func);
+
+    Reflect.defineMetadata('global', global, target);
   };
 };

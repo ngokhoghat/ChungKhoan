@@ -1,18 +1,19 @@
-import { Request, Response } from "express";
-import { UseAuthen } from "../../../base/decorator/auth.decorator";
-import { UseAuthor } from "../../../base/decorator/author.decorator";
-import { Controller, Get, Post } from "../../../base/decorator/common.decorator";
+import { NextFunction, Request, Response } from "express";
+import { Controller, Get, Post, UseGlobal, UseMidlleware } from "../../../base/decorator/common.decorator";
+import { actionType, DataType, handleSuccessRequest } from "../../../data/responseHandler";
 import { AuthGuard } from "../../../service/AuthGuard";
 import { MailerService } from "../../../service/Mailer.service";
 import { Roles } from "../../../service/Roles";
+import { SetAppData } from "../../../service/SetAppData";
 import AccountService from "./Account.service";
 
-@UseAuthen(AuthGuard)
-@UseAuthor(Roles('admin'))
+@UseMidlleware(AuthGuard)
+@UseMidlleware(Roles('admin'))
+@UseGlobal(SetAppData)
 @Controller('/admin/account')
 export default class AdminAccountController {
   @Get('/')
-  public async index(req: Request, res: Response) {
+  public async index(req: Request, res: Response, next: NextFunction) {
     const userCode = req?.cookies?.Authentication || null
     const accountList = await AccountService.getAll(userCode);
 
@@ -31,6 +32,13 @@ export default class AdminAccountController {
     const mailer = new MailerService();
 
     return AccountService.create(imageFile, req.body)
+      .then((account) =>
+        handleSuccessRequest(
+          req,
+          actionType.create,
+          DataType.account,
+          account
+        ))
       .then((account) => {
         const { email, password, displayName } = account;
         const listAccoutUrl =
@@ -58,15 +66,13 @@ export default class AdminAccountController {
             displayName: req.body.displayName
           }
         ))
-      .catch((err) => res.send(err))
+      .catch((err) => res.send(err.toString()))
   }
 
   @Get('/delete/:id')
   public async deleteAccount(req: Request, res: Response) {
-    console.log(req.params.id);
-    return res.send('Done')
-    // return AccountService.delete(req.params.id)
-    //   .then(() => res.redirect('back'))
-    //   .catch(err => res.send(err))
+    return AccountService.delete(req.params.id)
+      .then(() => res.redirect('/admin/account'))
+      .catch(err => res.send(err))
   }
 }

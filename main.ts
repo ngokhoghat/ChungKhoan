@@ -19,6 +19,7 @@ import AdminAccountController from './src/modules/_admin/account/Account.control
 
 // client site
 import ClientController from './src/modules/_client/Client.controller'
+import CartController from './src/modules/_client/cart/CartController'
 import ProductClientController from './src/modules/_client/product/Product.controller'
 
 import CrawlerController from './src/modules/crawler/CrawlerController'
@@ -56,6 +57,7 @@ ApplicationFactory.excute(app, [
 
   // client controller
   ClientController,
+  CartController,
   ProductClientController,
 
   // api controller

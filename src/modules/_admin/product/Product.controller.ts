@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { UseAuthen } from "../../../base/decorator/auth.decorator";
 
-import { Controller, Get, Post } from "../../../base/decorator/common.decorator";
+import { Controller, Get, Post, UseMidlleware } from "../../../base/decorator/common.decorator";
+import { actionType, DataType, handleSuccessRequest } from "../../../data/responseHandler";
 import { AuthGuard } from "../../../service/AuthGuard";
 import ProductService from "./Product.service";
-@UseAuthen(AuthGuard)
+@UseMidlleware(AuthGuard)
 @Controller('/admin/product')
 export default class AdminProductController {
   @Get('/')
@@ -13,26 +13,35 @@ export default class AdminProductController {
     res.render('admin/product', { layout: 'admin.layout.hbs', listProduct })
   }
 
-  @Get('/:id')
-  public async productDetail(req: Request, res: Response) {
-    const product: any = await ProductService.getById(req.params.id);
-    return res.render('admin/product-detail', { layout: 'admin.layout.hbs', product: product })
-  }
-
   @Get('/add-product')
-  public async addProduct(req: Request, res: Response) {
+  public addProduct(req: Request, res: Response) {
     res.render('admin/add-product', { layout: 'admin.layout.hbs' })
   }
 
   @Post('/add-product')
   public async createProduct(req: Request | any, res: Response) {
-    const imageFile = await req?.files?.imageFile;
+    const imageFile = await req?.files?.productImage;
+
     return ProductService.createProduct(imageFile, req.body)
+      .then((product) =>
+        handleSuccessRequest(
+          req,
+          actionType.create,
+          DataType.product,
+          product
+        )
+      )
       .then(() => res.render('admin/add-product', {
         layout: 'admin.layout.hbs',
         status: 'Success'
       }))
-      .catch((err) => res.send(err))
+      .catch((err) => res.send(err.toString()))
+  }
+
+  @Get('/:id')
+  public async productDetail(req: Request, res: Response) {
+    const product: any = await ProductService.getById(req.params.id);
+    return res.render('admin/product-detail', { layout: 'admin.layout.hbs', product: product })
   }
 
   @Get('/delete-product/:id')
