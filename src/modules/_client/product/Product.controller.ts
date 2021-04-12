@@ -1,14 +1,22 @@
 import { Request, Response } from "express";
 import { Controller, Get } from "../../../base/decorator/common.decorator";
 import { Product } from "../../../data/entities/Products";
+import ProductService from "./Product.service";
 
 @Controller('/product')
 export default class ProductClientController {
   @Get('/')
   public async index(req: Request | any, res: Response) {
-    const listProduct = await Product.find().lean().exec();
+    let listProduct: Array<any>;
 
-    return res.render('client/product', { listProduct });
+    if (!req.query.category) {
+      listProduct = await Product.find().lean().exec();
+    } else if (req.query.category) {
+      listProduct = await ProductService.findByCategory(req.query.category);
+    }
+
+    res.send(listProduct)
+    // return res.render('client/product', { listProduct });
   }
 
   @Get('/:id')

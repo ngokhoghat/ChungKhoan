@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 
+import * as moment from 'moment'
 import { config } from 'dotenv';
 import * as express from 'express';
 import * as session from 'express-session'
@@ -16,6 +17,8 @@ import AdminController from './src/modules/_admin/Admin.controller'
 import AdminAuthController from './src/modules/_admin/auth/Auth.controller'
 import AdminProductController from './src/modules/_admin/product/Product.controller'
 import AdminAccountController from './src/modules/_admin/account/Account.controller'
+import AdminOrderController from './src/modules/_admin/order/Order.controller'
+import AdminCategoryController from './src/modules/_admin/category/Category.controller'
 
 // client site
 import ClientController from './src/modules/_client/Client.controller'
@@ -41,8 +44,12 @@ app.engine('hbs',
   exphbs({
     extname: 'hbs',
     defaultLayout: 'main.layout.hbs',
-    layoutsDir: __dirname + '/src/views/layouts/'
+    layoutsDir: __dirname + '/src/views/layouts/',
+    helpers: {
+      prettifyDate: function (timestamp: Date) { return moment(timestamp).format('DD-MM-YYYY hh:ss').toString() }
+    }
   }));
+
 app.set('view engine', 'hbs');
 app.set('views', __dirname + '/src/views');
 
@@ -54,6 +61,8 @@ ApplicationFactory.excute(app, [
   AdminAuthController,
   AdminAccountController,
   AdminProductController,
+  AdminOrderController,
+  AdminCategoryController,
 
   // client controller
   ClientController,

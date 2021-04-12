@@ -100,23 +100,9 @@
                     <input type="hidden" name="product-cate" value="0" id="product-cate">
                     <a href="#" class="link-control">All Category</a>
                     <ul class="list-cate">
-                      <li class="level-0">All Category</li>
-                      <li class="level-1">-Electronics</li>
-                      <li class="level-2">Batteries & Chargens</li>
-                      <li class="level-2">Headphone & Headsets</li>
-                      <li class="level-2">Mp3 Player & Acessories</li>
-                      <li class="level-1">-Smartphone & Table</li>
-                      <li class="level-2">Batteries & Chargens</li>
-                      <li class="level-2">Mp3 Player & Headphones</li>
-                      <li class="level-2">Table & Accessories</li>
-                      <li class="level-1">-Electronics</li>
-                      <li class="level-2">Batteries & Chargens</li>
-                      <li class="level-2">Headphone & Headsets</li>
-                      <li class="level-2">Mp3 Player & Acessories</li>
-                      <li class="level-1">-Smartphone & Table</li>
-                      <li class="level-2">Batteries & Chargens</li>
-                      <li class="level-2">Mp3 Player & Headphones</li>
-                      <li class="level-2">Table & Accessories</li>
+                      {{#each categories}}
+                      <li class="level-1">{{displayName}}</li>
+                      {{/each}}
                     </ul>
                   </div>
                 </form>

@@ -6,6 +6,10 @@ export const productSchema = new Schema(
       type: String,
       required: [true, 'Name is required.'],
     },
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: 'categories'
+    },
     imageLinks: {
       type: String,
       required: [true, 'Image is required.'],

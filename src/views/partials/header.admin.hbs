@@ -65,7 +65,7 @@
         <li class="nav-item dropdown">
           <a class="nav-link" data-toggle="dropdown" href="#">
             <i class="far fa-comments"></i>
-            <span class="badge badge-danger navbar-badge">3</span>
+            <span class="badge badge-danger navbar-badge">{{loggers.length}}</span>
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
             {{#each loggers}}
@@ -74,12 +74,8 @@
               <div class="media">
                 <img src="{{account.imageLinks}}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                 <div class="media-body">
-                  <h3 class="dropdown-item-title">
-                    Brad Diesel
-                    <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                  </h3>
-                  <p class="text-sm">Call me whenever you can...</p>
-                  <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                  <p class="text-sm">{{account.displayName}} has {{action}} {{dataType}} {{dataDisplay}}</p>
+                  <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i>At {{prettifyDate createdAt}}</p>
                 </div>
               </div>
               <!-- Message End -->
@@ -184,6 +180,12 @@
                     <p>Tất cả sản phẩm</p>
                   </a>
                 </li>
+                <li class="nav-item">
+                  <a href="/admin/category" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Danh mục sản phẩm</p>
+                  </a>
+                </li>
               </ul>
             </li>
             <li class="nav-item has-treeview">
@@ -209,10 +211,10 @@
               </ul>
             </li>
             <li class="nav-item">
-              <a href="pages/gallery.html" class="nav-link">
-                <i class="nav-icon far fa-image"></i>
+              <a href="/admin/order" class="nav-link">
+                <i class="nav-icon fas fa-file-invoice"></i>
                 <p>
-                  Gallery
+                  Hóa đơn
                 </p>
               </a>
             </li>

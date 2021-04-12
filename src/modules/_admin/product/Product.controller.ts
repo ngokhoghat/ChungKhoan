@@ -20,7 +20,7 @@ export default class AdminProductController {
 
   @Post('/add-product')
   public async createProduct(req: Request | any, res: Response) {
-    const imageFile = await req?.files?.productImage;
+    const imageFile = await req?.files?.imageLinks;
 
     return ProductService.createProduct(imageFile, req.body)
       .then((product) =>

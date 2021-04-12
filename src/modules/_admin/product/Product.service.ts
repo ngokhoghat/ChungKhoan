@@ -3,11 +3,11 @@ import { Product } from "../../../data/entities/Products";
 
 export default class ProductService {
   public static async getAll() {
-    return Product.find().lean().exec();
+    return Product.find().populate('category').lean().exec();
   }
 
   public static async getById(id) {
-    return Product.findById(id).lean().exec();
+    return Product.findById(id).populate('category').lean().exec();
   }
 
   public static async createProduct(imageFile, product) {
@@ -17,13 +17,14 @@ export default class ProductService {
       uploadPath = './public/uploads/' + new Date().getTime() + imageFile.name;
       const imagePath = '/uploads/' + new Date().getTime() + imageFile.name;
 
-      const { productName, productPrice, productQuantity } = product;
+      const { displayName, price, quantity, category } = product;
 
       return Product.create({
-        displayName: productName,
+        displayName: displayName,
         imageLinks: imagePath,
-        price: productPrice,
-        quantity: productQuantity
+        category: category,
+        price: price,
+        quantity: quantity
       })
     } catch (error) {
       return error;

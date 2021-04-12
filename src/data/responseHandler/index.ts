@@ -33,7 +33,7 @@ export const handleSuccessRequest = (
 
   return LoggerService.create({
     account: user._id,
-    acction: actionType,
+    action: actionType,
     dataType,
     dataDisplay
   }).then(() => data);
